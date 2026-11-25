@@ -1,0 +1,29 @@
+services:
+  app:
+    build: .
+    ports: 
+      - "13001:13000"
+    volumes:
+      - .:/app
+    command: npm run dev -- --legacy-watch
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: hubservice
+      DB_PASSWORD: hubservice123
+      DB_NAME: service_hub
+    depends_on:
+      - db
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: hubservice
+      POSTGRES_PASSWORD: hubservice123
+      POSTGRES_DB: service_hub
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
+
